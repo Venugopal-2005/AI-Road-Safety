@@ -1,4 +1,5 @@
-# 🚗 AI-Powered Road Safety and Pedestrian Detection System
+# AI-Powered Road Safety and Pedestrian Detection System
+Live : https://venugopal-road-safety.streamlit.app/
 
 [![OpenCV AI Competition 2026](https://img.shields.io/badge/OpenCV%20AI%20Competition-2026%20AWS-orange.svg)](https://opencv.org/)
 [![Python 3.11](https://img.shields.io/badge/python-3.11-blue.svg)](https://www.python.org/downloads/)
