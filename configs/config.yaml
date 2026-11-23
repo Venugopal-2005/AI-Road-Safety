@@ -1,0 +1,88 @@
+# AI-Powered Road Safety and Pedestrian Detection System
+# Configuration Specification for OpenCV AI Competition 2026 (AWS Powered)
+
+system:
+  device: "auto"          # Options: "auto", "cpu", "cuda"
+  num_threads: 4
+  log_level: "INFO"       # DEBUG, INFO, WARNING, ERROR, CRITICAL
+  log_file: "outputs/road_safety.log"
+  save_outputs: true
+  output_dir: "outputs"
+
+detection:
+  model_name: "yolov8n.pt"  # Pretrained YOLOv8 nano (COCO weights)
+  model_path: "models/yolov8n.pt"
+  confidence_threshold: 0.35
+  iou_threshold: 0.45
+  img_size: 640
+  # Filtered target classes from COCO:
+  # 0: person, 1: bicycle, 2: car, 3: motorcycle, 5: bus, 7: truck, 9: traffic light, 11: stop sign
+  target_classes:
+    - 0   # person / pedestrian
+    - 1   # bicycle
+    - 2   # car
+    - 3   # motorcycle
+    - 5   # bus
+    - 7   # truck
+    - 9   # traffic light
+    - 11  # stop sign
+  enable_tracking: true
+  tracker_max_age: 15     # Max frames to keep lost tracked object
+  tracker_min_hits: 3     # Min frames to confirm a track
+
+lanes:
+  enabled: true
+  canny_low: 50
+  canny_high: 150
+  gaussian_kernel: 5
+  hough_rho: 2
+  hough_theta_deg: 1.0
+  hough_threshold: 40
+  hough_min_line_len: 40
+  hough_max_line_gap: 50
+  # Trapezoidal Region of Interest (ROI) relative to image (width, height):
+  # [bottom-left, top-left, top-right, bottom-right]
+  roi_vertices:
+    - [0.05, 0.95]
+    - [0.42, 0.60]
+    - [0.58, 0.60]
+    - [0.95, 0.95]
+  min_slope: 0.35         # Ignore near-horizontal lines
+  max_slope: 2.50         # Ignore near-vertical artifacts
+  temporal_smoothing: 0.7 # Smoothing factor between frames [0.0 = no smooth, 1.0 = frozen]
+  lane_departure_warning_threshold_px: 50  # Center offset trigger in pixels (at 1280x720)
+
+signs:
+  enabled: true
+  yolo_sign_classes:
+    - 9   # traffic light
+    - 11  # stop sign
+  # Heuristic color/shape detector for speed/warning signs (extensible):
+  enable_heuristic_signs: true
+  min_contour_area: 400
+  max_contour_area: 40000
+
+safety:
+  # Heuristic proximity risk boundaries:
+  # Proximity is estimated based on bottom-y coordinate and bounding-box ratio
+  ego_corridor_width_ratio: 0.36   # Central corridor width relative to image width
+  pedestrian_critical_distance_ratio: 0.70  # y_bottom >= 0.70 * height inside corridor = CRITICAL
+  pedestrian_caution_distance_ratio: 0.50   # y_bottom >= 0.50 * height = CAUTION
+  vehicle_critical_distance_ratio: 0.78
+  vehicle_caution_distance_ratio: 0.58
+  # Time to Close (TTC) proxy based on bbox growth rate:
+  enable_ttc_proxy: true
+  ttc_critical_frames: 10
+  ttc_caution_frames: 25
+
+visualization:
+  show_bounding_boxes: true
+  show_labels: true
+  show_confidence: true
+  show_lane_overlay: true
+  show_ego_corridor: true
+  show_telemetry_hud: true
+  show_safety_alerts: true
+  box_line_thickness: 2
+  font_scale: 0.6
+  overlay_alpha: 0.35

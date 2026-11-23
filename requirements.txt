@@ -1,0 +1,33 @@
+# AI-Powered Road Safety and Pedestrian Detection System
+# Pinned and verified dependencies for Python 3.11
+# OpenCV AI Competition 2026 powered by AWS
+#
+# INSTALLATION:
+#   1. Create venv: python -m venv venv
+#   2. Activate:    .\venv\Scripts\Activate.ps1  (Windows)
+#   3. Install:     pip install -r requirements.txt
+#
+# NOTE: PyTorch CPU (torch 2.9.1+cpu) is pre-installed separately on Windows.
+#       Run: pip install torch torchvision --index-url https://download.pytorch.org/whl/cpu
+
+# Core Computer Vision
+opencv-python>=4.10.0
+numpy>=1.26.0,<3.0.0
+pillow>=10.4.0
+
+# Deep Learning (PyTorch - install separately for CPU; see note above)
+# torch>=2.0.0
+# torchvision>=0.15.0
+
+# AI Object Detection
+ultralytics>=8.3.0
+
+# Web Dashboard
+streamlit>=1.40.0
+
+# Data & Utilities
+pyyaml>=6.0.1
+pandas>=2.0.0
+
+# Testing
+pytest>=8.3.0
